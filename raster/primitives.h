@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015 David Capello
+// Copyright (C) 2015-2016 David Capello
 
 #ifndef RASTER_PRIMITIVES_INCLUDED_H
 #define RASTER_PRIMITIVES_INCLUDED_H
@@ -80,8 +80,8 @@ namespace raster {
 #pragma warning(disable:4723)
 #endif
 
-  template<typename Pixel>
-  typename Pixel::pointer pixel_address(image_view& img, const int x, const int y) {
+  template<typename Pixel, typename ImageView>
+  typename Pixel::pointer pixel_address(ImageView& img, const int x, const int y) {
     assert(x >= 0 && x < img.spec().width());
     assert(y >= 0 && y < img.spec().height());
     assert(img.spec().bits_per_pixel() == Pixel::bits_per_pixel);
@@ -93,7 +93,7 @@ namespace raster {
     }
     else {
       return
-        ((typename  Pixel::pointer)&img.buf()[y*img.spec().rowstride()]) + x;
+        ((typename Pixel::pointer)&img.buf()[y*img.spec().rowstride()]) + x;
     }
   }
 
@@ -116,7 +116,7 @@ namespace raster {
   }
 
   template<typename Pixel>
-  typename Pixel::value_type direct_get_pixel(image_view& img, const int x, const int y) {
+  typename Pixel::value_type direct_get_pixel(const image_view& img, const int x, const int y) {
     assert(img.spec().bits_per_pixel() == Pixel::bits_per_pixel);
 
     if (Pixel::bits_per_pixel < 8) {
@@ -142,7 +142,7 @@ namespace raster {
     }
   }
 
-  inline color_t get_pixel(image_view& img, const int x, const int y) {
+  inline color_t get_pixel(const image_view& img, const int x, const int y) {
     switch (img.spec().bits_per_pixel()) {
       case 1: return direct_get_pixel<Pixel1bpp>(img, x, y);
       case 2: return direct_get_pixel<Pixel2bpp>(img, x, y);
