@@ -1,11 +1,12 @@
 // Raster Library
-// Copyright (C) 2015 David Capello
+// Copyright (C) 2015-2016 David Capello
 
 #ifndef RASTER_BUFFER_VIEW_INCLUDED_H
 #define RASTER_BUFFER_VIEW_INCLUDED_H
 #pragma once
 
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
@@ -16,11 +17,11 @@ namespace raster {
   // Wrapper for an array of bytes. It doesn't own the data.
   class buffer_view {
   public:
-    typedef uint8_t value_type;
+    typedef std::uint8_t value_type;
     typedef value_type* pointer;
     typedef value_type& reference;
 
-    buffer_view(size_t size, pointer data)
+    buffer_view(std::size_t size, pointer data)
       : m_size(size)
       , m_data(data) {
     }
@@ -31,7 +32,7 @@ namespace raster {
       , m_data(&vector[0]) {
     }
 
-    size_t size() const { return m_size; }
+    std::size_t size() const { return m_size; }
     pointer begin() { return m_data; }
     pointer end() { return m_data+m_size; }
     const pointer begin() const { return m_data; }
