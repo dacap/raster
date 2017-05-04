@@ -85,12 +85,11 @@ namespace raster {
 
     if constexpr (Pixel::bits_per_pixel < 8) {
       return
-        (typename Pixel::pointer)(&img.buf()[y*img.spec().rowstride()] +
-                                  (x / (8 / Pixel::bits_per_pixel)));
+        (typename Pixel::pointer)(img.line(y) + (x / (8 / Pixel::bits_per_pixel)));
     }
     else {
       return
-        ((typename Pixel::pointer)&img.buf()[y*img.spec().rowstride()]) + x;
+        ((typename Pixel::pointer)img.line(y)) + x;
     }
   }
 
