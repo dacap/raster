@@ -1,5 +1,5 @@
 # Raster Library
-# Copyright (C) 2015 David Capello
+# Copyright (C) 2015-2017 David Capello
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -13,7 +13,7 @@ if(WIN32)
 endif()
 
 if(UNIX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
 endif()
 
 if(RASTER_TESTS)

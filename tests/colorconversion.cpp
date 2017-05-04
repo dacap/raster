@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015 David Capello
+// Copyright (C) 2015-2017 David Capello
 
 #include "raster/color.h"
 #include "test.h"
@@ -19,4 +19,13 @@ int main() {
   EXPECT_EQ(0x56BF, rgb<ColorR5G6B5>(10, 53, 31));
   EXPECT_EQ(0xFEAD, rgb<ColorR5G6B5>(31, 53, 13));
   EXPECT_EQ(0xffff, rgb<ColorR5G6B5>(31, 63, 31));
+
+  // R5G6B5 -> A8B8G8R8
+  {
+    auto c = convert_color<ColorR5G6B5, ColorA8B8G8R8>(rgb<ColorR5G6B5>(10, 53, 13));
+    EXPECT_EQ(10*255/31, (int)getr<ColorA8B8G8R8>(c));
+    EXPECT_EQ(53*255/63, (int)getg<ColorA8B8G8R8>(c));
+    EXPECT_EQ(13*255/31, (int)getb<ColorA8B8G8R8>(c));
+    EXPECT_EQ(255, (int)geta<ColorA8B8G8R8>(c));
+  }
 }

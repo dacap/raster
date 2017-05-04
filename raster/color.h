@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015 David Capello
+// Copyright (C) 2015-2017 David Capello
 
 #ifndef RASTER_COLOR_INCLUDED_H
 #define RASTER_COLOR_INCLUDED_H
@@ -123,47 +123,136 @@ namespace raster {
     static const uint32_t a_bits = 0;
   };
 
-  template<typename Color>
-  typename Color::value_type rgba(typename Color::component_type r,
-                                  typename Color::component_type g,
-                                  typename Color::component_type b,
-                                  typename Color::component_type a) {
-    return
-      (typename Color::value_type(r << Color::r_shift) & Color::r_mask) |
-      (typename Color::value_type(g << Color::g_shift) & Color::g_mask) |
-      (typename Color::value_type(b << Color::b_shift) & Color::b_mask) |
-      (typename Color::value_type(a << Color::a_shift) & Color::a_mask) ;
+  // Max value for each component
+
+  template<typename C>
+  constexpr typename C::component_type maxr() { return (C::r_mask >> C::r_shift); }
+  template<typename C>
+  constexpr typename C::component_type maxg() { return (C::g_mask >> C::g_shift); }
+  template<typename C>
+  constexpr typename C::component_type maxb() { return (C::b_mask >> C::b_shift); }
+  template<typename C>
+  constexpr typename C::component_type maxa() { return (C::a_mask >> C::a_shift); }
+
+  // Get color components
+
+  template<typename C>
+  typename C::component_type getr(const typename C::value_type color) {
+    return ((color & C::r_mask) >> C::r_shift);
+  }
+  template<typename C>
+  typename C::component_type getg(const typename C::value_type color) {
+    return ((color & C::g_mask) >> C::g_shift);
+  }
+  template<typename C>
+  typename C::component_type getb(const typename C::value_type color) {
+    return ((color & C::b_mask) >> C::b_shift);
+  }
+  template<typename C>
+  typename C::component_type geta(const typename C::value_type color) {
+    return ((color & C::a_mask) >> C::a_shift);
   }
 
-  template<typename Color>
-  typename Color::value_type rgb(typename Color::component_type r,
-                                 typename Color::component_type g,
-                                 typename Color::component_type b) {
-    return
-      (typename Color::value_type(r << Color::r_shift) & Color::r_mask) |
-      (typename Color::value_type(g << Color::g_shift) & Color::g_mask) |
-      (typename Color::value_type(b << Color::b_shift) & Color::b_mask);
+  // Convert a color components to other range (e.g. 5bits to 8bits)
+
+  template<typename F, typename T>
+  typename T::component_type getr2(const typename F::value_type color) {
+    if constexpr (maxr<F>() == maxr<T>())
+      return getr<F>(color);
+    else
+      return getr<F>(color) * maxr<T>() / maxr<F>();
   }
 
-  template<typename FromColor, typename ToColor>
-  color_t convert_color(color_t color) {
-    if (FromColor::type == ToColor::type) {
-      if (FromColor::type == ColorType::Rgba)
+  template<typename F, typename T>
+  typename T::component_type getg2(const typename F::value_type color) {
+    if constexpr (maxg<F>() == maxg<T>())
+      return getg<F>(color);
+    else
+      return getg<F>(color) * maxg<T>() / maxg<F>();
+  }
+
+  template<typename F, typename T>
+  typename T::component_type getb2(const typename F::value_type color) {
+    if constexpr (maxb<F>() == maxb<T>())
+      return getb<F>(color);
+    else
+      return getb<F>(color) * maxb<T>() / maxb<F>();
+  }
+
+  template<typename F, typename T>
+  typename T::component_type geta2(const typename F::value_type color) {
+    if constexpr (maxa<F>() == maxa<T>())
+      return geta<F>(color);
+    else
+      return geta<F>(color) * maxa<T>() / maxa<F>();
+  }
+
+  // Create new colors
+
+  template<typename C>
+  typename C::value_type rgba(const typename C::component_type r,
+                              const typename C::component_type g,
+                              const typename C::component_type b,
+                              const typename C::component_type a) {
+    return
+      (typename C::value_type(r << C::r_shift) & C::r_mask) |
+      (typename C::value_type(g << C::g_shift) & C::g_mask) |
+      (typename C::value_type(b << C::b_shift) & C::b_mask) |
+      (typename C::value_type(a << C::a_shift) & C::a_mask) ;
+  }
+
+  template<typename C>
+  typename C::value_type rgb(const typename C::component_type r,
+                             const typename C::component_type g,
+                             const typename C::component_type b) {
+    return
+      (typename C::value_type(r << C::r_shift) & C::r_mask) |
+      (typename C::value_type(g << C::g_shift) & C::g_mask) |
+      (typename C::value_type(b << C::b_shift) & C::b_mask);
+  }
+
+  template<typename F, typename T>
+  color_t convert_color(const color_t color) {
+    // Basic case, no conversion
+    if constexpr (F::type == T::type) {
+      return color;
+    }
+    else if constexpr (F::type == ColorType::Rgba) {
+      // RGBA -> RGBA
+      if constexpr (T::a_bits != 0) {
         return
-          (((FromColor::r_mask & color) >> FromColor::r_shift) << ToColor::r_shift) |
-          (((FromColor::g_mask & color) >> FromColor::g_shift) << ToColor::g_shift) |
-          (((FromColor::b_mask & color) >> FromColor::b_shift) << ToColor::b_shift) |
-          (((FromColor::a_mask & color) >> FromColor::a_shift) << ToColor::a_shift) ;
-      else if (FromColor::type == ColorType::Rgb)
+          (getr2<F, T>(color) << T::r_shift) |
+          (getg2<F, T>(color) << T::g_shift) |
+          (getb2<F, T>(color) << T::b_shift) |
+          (geta2<F, T>(color) << T::a_shift);
+      }
+      // RGBA -> RGB (Alpha channel is lost)
+      else {
         return
-          (((FromColor::r_mask & color) >> FromColor::r_shift) << ToColor::r_shift) |
-          (((FromColor::g_mask & color) >> FromColor::g_shift) << ToColor::g_shift) |
-          (((FromColor::b_mask & color) >> FromColor::b_shift) << ToColor::b_shift) ;
-      else
-        return (color & ToColor::mask);
+          (getr2<F, T>(color) << T::r_shift) |
+          (getg2<F, T>(color) << T::g_shift) |
+          (getb2<F, T>(color) << T::b_shift);
+      }
+    }
+    else if constexpr (F::type == ColorType::Rgb) {
+      // RGB -> RGBA, so we use Alpha = Opaque color
+      if constexpr (T::a_bits != 0) {
+        return
+          (getr2<F, T>(color) << T::r_shift) |
+          (getg2<F, T>(color) << T::g_shift) |
+          (getb2<F, T>(color) << T::b_shift) |
+          T::a_mask;            // Alpha = opaque
+      }
+      // RGB -> RGB
+      else {
+        return
+          (getr2<F, T>(color) << T::r_shift) |
+          (getg2<F, T>(color) << T::g_shift) |
+          (getb2<F, T>(color) << T::b_shift);
+      }
     }
     else {
-      return 0;
+      static_assert("Color conversion not supported");
     }
   }
 
