@@ -213,13 +213,17 @@ namespace raster {
 
   template<typename F, typename T>
   color_t convert_color(const color_t color) {
-    // Basic case, no conversion
-    if constexpr (F::type == T::type) {
-      return color;
-    }
-    else if constexpr (F::type == ColorType::Rgba) {
+    if constexpr (F::type == ColorType::Rgba) {
+      // No conversion
+      if constexpr (T::type == ColorType::Rgba &&
+                    F::r_mask == T::r_mask &&
+                    F::g_mask == T::g_mask &&
+                    F::b_mask == T::b_mask &&
+                    F::a_mask == T::a_mask) {
+        return color;
+      }
       // RGBA -> RGBA
-      if constexpr (T::a_bits != 0) {
+      else if constexpr (T::a_bits != 0) {
         return
           (getr2<F, T>(color) << T::r_shift) |
           (getg2<F, T>(color) << T::g_shift) |
@@ -235,8 +239,15 @@ namespace raster {
       }
     }
     else if constexpr (F::type == ColorType::Rgb) {
+      // No conversion
+      if constexpr (T::type == ColorType::Rgb &&
+                    F::r_mask == T::r_mask &&
+                    F::g_mask == T::g_mask &&
+                    F::b_mask == T::b_mask) {
+        return color;
+      }
       // RGB -> RGBA, so we use Alpha = Opaque color
-      if constexpr (T::a_bits != 0) {
+      else if constexpr (T::a_bits != 0) {
         return
           (getr2<F, T>(color) << T::r_shift) |
           (getg2<F, T>(color) << T::g_shift) |
