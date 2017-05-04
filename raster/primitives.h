@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015-2016 David Capello
+// Copyright (C) 2015-2017 David Capello
 
 #ifndef RASTER_PRIMITIVES_INCLUDED_H
 #define RASTER_PRIMITIVES_INCLUDED_H
@@ -83,7 +83,7 @@ namespace raster {
     assert(y >= 0 && y < img.spec().height());
     assert(img.spec().bits_per_pixel() == Pixel::bits_per_pixel);
 
-    if (Pixel::bits_per_pixel < 8) {
+    if constexpr (Pixel::bits_per_pixel < 8) {
       return
         (typename Pixel::pointer)(&img.buf()[y*img.spec().rowstride()] +
                                   (x / (8 / Pixel::bits_per_pixel)));
@@ -102,7 +102,7 @@ namespace raster {
   void direct_put_pixel(image_view& img, const int x, const int y, const typename Pixel::value_type value) {
     assert(img.spec().bits_per_pixel() == Pixel::bits_per_pixel);
 
-    if (Pixel::bits_per_pixel < 8) {
+    if constexpr (Pixel::bits_per_pixel < 8) {
       typename Pixel::pointer p = pixel_address<Pixel>(img, x, y);
       *p = ((*p) & ~Pixel::get_pixel_mask(x))
          | (value << Pixel::get_pixel_shift(x));
@@ -116,7 +116,7 @@ namespace raster {
   typename Pixel::value_type direct_get_pixel(const image_view& img, const int x, const int y) {
     assert(img.spec().bits_per_pixel() == Pixel::bits_per_pixel);
 
-    if (Pixel::bits_per_pixel < 8) {
+    if constexpr (Pixel::bits_per_pixel < 8) {
       return ((*pixel_address<Pixel>(img, x, y)) & Pixel::get_pixel_mask(x))
              >> Pixel::get_pixel_shift(x);
     }
