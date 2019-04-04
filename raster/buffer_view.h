@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015-2016 David Capello
+// Copyright (C) 2015-2019 David Capello
 
 #ifndef RASTER_BUFFER_VIEW_INCLUDED_H
 #define RASTER_BUFFER_VIEW_INCLUDED_H
@@ -21,15 +21,19 @@ namespace raster {
     typedef value_type* pointer;
     typedef value_type& reference;
 
-    buffer_view(std::size_t size, pointer data)
-      : m_size(size)
-      , m_data(data) {
+    buffer_view() :
+      m_size(0) {
+    }
+
+    buffer_view(std::size_t size, pointer data) :
+      m_size(size),
+      m_data(data) {
     }
 
     template<typename T>
-    buffer_view(std::vector<T>& vector)
-      : m_size(vector.size())
-      , m_data(&vector[0]) {
+    buffer_view(std::vector<T>& vector) :
+      m_size(vector.size()),
+      m_data(&vector[0]) {
     }
 
     std::size_t size() const { return m_size; }

@@ -91,13 +91,49 @@ namespace raster {
     static const uint32_t a_bits = 8;
   };
 
+  struct ColorR8G8B8 {
+    typedef uint32_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0x00ff0000;
+    static const uint32_t g_mask = 0x0000ff00;
+    static const uint32_t b_mask = 0x000000ff;
+    static const uint32_t a_mask = 0;
+    static const uint32_t r_shift = 16;
+    static const uint32_t g_shift = 8;
+    static const uint32_t b_shift = 0;
+    static const uint32_t a_shift = 0;
+    static const uint32_t r_bits = 8;
+    static const uint32_t g_bits = 8;
+    static const uint32_t b_bits = 8;
+    static const uint32_t a_bits = 0;
+  };
+
+  struct ColorB8G8R8 {
+    typedef uint32_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0x000000ff;
+    static const uint32_t g_mask = 0x0000ff00;
+    static const uint32_t b_mask = 0x00ff0000;
+    static const uint32_t a_mask = 0;
+    static const uint32_t r_shift = 0;
+    static const uint32_t g_shift = 8;
+    static const uint32_t b_shift = 16;
+    static const uint32_t a_shift = 0;
+    static const uint32_t r_bits = 8;
+    static const uint32_t g_bits = 8;
+    static const uint32_t b_bits = 8;
+    static const uint32_t a_bits = 0;
+  };
+
   struct ColorR5G6B5 {
     typedef uint16_t value_type;
     typedef uint8_t component_type;
     static const ColorType type = ColorType::Rgb;
-    static const uint32_t r_mask = 0xF800;
-    static const uint32_t g_mask = 0x07E0;
-    static const uint32_t b_mask = 0x001F;
+    static const uint32_t r_mask = 0xf800;
+    static const uint32_t g_mask = 0x07e0;
+    static const uint32_t b_mask = 0x001f;
     static const uint32_t r_shift = 11;
     static const uint32_t g_shift = 5;
     static const uint32_t b_shift = 0;
@@ -111,15 +147,79 @@ namespace raster {
     typedef uint16_t value_type;
     typedef uint8_t component_type;
     static const ColorType type = ColorType::Rgb;
-    static const uint32_t r_mask = 0x001F;
-    static const uint32_t g_mask = 0x07E0;
-    static const uint32_t b_mask = 0xF800;
+    static const uint32_t r_mask = 0x001f;
+    static const uint32_t g_mask = 0x07e0;
+    static const uint32_t b_mask = 0xf800;
     static const uint32_t r_shift = 0;
     static const uint32_t g_shift = 5;
     static const uint32_t b_shift = 11;
     static const uint32_t r_bits = 5;
     static const uint32_t g_bits = 6;
     static const uint32_t b_bits = 5;
+    static const uint32_t a_bits = 0;
+  };
+
+  struct ColorB4G4R4 {
+    typedef uint16_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0x00f;
+    static const uint32_t g_mask = 0x0f0;
+    static const uint32_t b_mask = 0xf00;
+    static const uint32_t r_shift = 0;
+    static const uint32_t g_shift = 4;
+    static const uint32_t b_shift = 8;
+    static const uint32_t r_bits = 4;
+    static const uint32_t g_bits = 4;
+    static const uint32_t b_bits = 4;
+    static const uint32_t a_bits = 0;
+  };
+
+  struct ColorR4G4B4 {
+    typedef uint16_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0xf00;
+    static const uint32_t g_mask = 0x0f0;
+    static const uint32_t b_mask = 0x00f;
+    static const uint32_t r_shift = 8;
+    static const uint32_t g_shift = 4;
+    static const uint32_t b_shift = 0;
+    static const uint32_t r_bits = 4;
+    static const uint32_t g_bits = 4;
+    static const uint32_t b_bits = 4;
+    static const uint32_t a_bits = 0;
+  };
+
+  struct ColorB1G1R1 {
+    typedef uint8_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0x1;
+    static const uint32_t g_mask = 0x2;
+    static const uint32_t b_mask = 0x4;
+    static const uint32_t r_shift = 0;
+    static const uint32_t g_shift = 1;
+    static const uint32_t b_shift = 2;
+    static const uint32_t r_bits = 1;
+    static const uint32_t g_bits = 1;
+    static const uint32_t b_bits = 1;
+    static const uint32_t a_bits = 0;
+  };
+
+  struct ColorR1G1B1 {
+    typedef uint8_t value_type;
+    typedef uint8_t component_type;
+    static const ColorType type = ColorType::Rgb;
+    static const uint32_t r_mask = 0x4;
+    static const uint32_t g_mask = 0x2;
+    static const uint32_t b_mask = 0x1;
+    static const uint32_t r_shift = 2;
+    static const uint32_t g_shift = 1;
+    static const uint32_t b_shift = 0;
+    static const uint32_t r_bits = 1;
+    static const uint32_t g_bits = 1;
+    static const uint32_t b_bits = 1;
     static const uint32_t a_bits = 0;
   };
 

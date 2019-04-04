@@ -1,10 +1,11 @@
 # Raster Library
-# Copyright (C) 2015-2017 David Capello
+# Copyright (C) 2015-2019 David Capello
 
 cmake_minimum_required(VERSION 2.6)
 
 project(raster CXX)
 option(RASTER_TESTS "Compile raster tests" on)
+option(RASTER_TOOLS "Compile raster tools" on)
 
 include_directories(.)
 
@@ -19,4 +20,8 @@ endif()
 if(RASTER_TESTS)
   enable_testing()
   add_subdirectory(tests)
+endif()
+
+if(RASTER_TOOLS)
+  add_subdirectory(tools)
 endif()

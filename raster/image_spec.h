@@ -9,6 +9,12 @@ namespace raster {
 
   class image_spec {
   public:
+    image_spec()
+      : m_width(0)
+      , m_height(0)
+      , m_bits_per_pixel(0) {
+    }
+
     image_spec(int width, int height, int bits_per_pixel)
       : m_width(width)
       , m_height(height)
@@ -20,7 +26,9 @@ namespace raster {
     int bits_per_pixel() const { return m_bits_per_pixel; }
 
     int rowstride() const {
-      if (m_bits_per_pixel < 8)
+      if (m_bits_per_pixel == 0)
+        return 0;
+      else if (m_bits_per_pixel < 8)
         return ((m_width / (8 / m_bits_per_pixel)) +
                 (m_width % (8 / m_bits_per_pixel) ? 1: 0));
       else
