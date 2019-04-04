@@ -1,7 +1,10 @@
 # Raster Library
 # Copyright (C) 2015-2019 David Capello
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.4)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(raster CXX)
 option(RASTER_TESTS "Compile raster tests" on)
@@ -11,10 +14,6 @@ include_directories(.)
 
 if(WIN32)
   add_definitions(-D_SCL_SECURE_NO_WARNINGS)
-endif()
-
-if(UNIX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
 endif()
 
 if(RASTER_TESTS)

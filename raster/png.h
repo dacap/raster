@@ -42,6 +42,7 @@ public:
       png_destroy_read_struct(&m_png, nullptr, nullptr);
   }
   operator png_structp() { return m_png; }
+  png_structp operator->() { return m_png; }
 private:
   png_structp m_png;
 };

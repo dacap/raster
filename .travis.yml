@@ -1,0 +1,30 @@
+language: cpp
+
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9
+      env:
+        - MATRIX_EVAL="wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip && unzip ninja-mac.zip && export PATH=$PWD:$PATH"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - ninja-build
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
+
+script:
+  - ninja
+  - ctest --output-on-failure
