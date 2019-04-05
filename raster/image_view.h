@@ -6,10 +6,32 @@
 #pragma once
 
 #include "raster/buffer_view.h"
+#include "raster/image_iterator.h"
 #include "raster/image_spec.h"
+
 #include <cassert>
 
 namespace raster {
+
+  namespace details {
+    template<typename Pixel>
+    class specific_image {
+    public:
+      typedef image_iterator<Pixel> iterator;
+
+      specific_image(const image_spec& spec,
+                     buffer_view& buf) :
+        m_spec(spec),
+        m_buf(buf) {
+      }
+
+      iterator begin() { return iterator(m_spec, m_buf.begin()); }
+      iterator end() { return iterator(m_spec, m_buf.end()); }
+    private:
+      const image_spec& m_spec;
+      buffer_view& m_buf;
+    };
+  }
 
   class image_view {
   public:
@@ -50,6 +72,11 @@ namespace raster {
     int width() const { return m_spec.width(); }
     int height() const { return m_spec.height(); }
     int bits_per_pixel() const { return m_spec.bits_per_pixel(); }
+
+    template<typename Pixel>
+    details::specific_image<Pixel> view_as() {
+      return details::specific_image<Pixel>(m_spec, m_buf);
+    }
 
   private:
     image_spec m_spec;

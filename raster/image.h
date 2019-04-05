@@ -1,5 +1,5 @@
 // Raster Library
-// Copyright (C) 2015 David Capello
+// Copyright (C) 2015-2019 David Capello
 
 #ifndef RASTER_IMAGE_INCLUDED_H
 #define RASTER_IMAGE_INCLUDED_H
@@ -61,6 +61,11 @@ namespace raster {
     operator image_view&() { return m_view; }
 
     operator bool() const { return m_view.bits_per_pixel() != 0; }
+
+    template<typename Pixel>
+    details::specific_image<Pixel> view_as() {
+      return m_view.view_as<Pixel>();
+    }
 
   private:
     details::alloc_buffer m_alloc;

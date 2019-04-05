@@ -42,6 +42,7 @@ namespace raster {
     const static int get_pixel_offset(const int x) { return x; }
     const static int get_pixel_shift(const int x) { return 0; }
     const static int get_pixel_mask(const int x) { return 0xff; }
+    const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
   struct Pixel16bpp {
@@ -52,6 +53,7 @@ namespace raster {
     const static int get_pixel_offset(const int x) { return x << 1; }
     const static int get_pixel_shift(const int x) { return 0; }
     const static int get_pixel_mask(const int x) { return 0xffff; }
+    const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
   struct Pixel24bpp {
@@ -62,6 +64,9 @@ namespace raster {
     const static int get_pixel_offset(const int x) { return x*3; }
     const static int get_pixel_shift(const int x) { return 0; }
     const static int get_pixel_mask(const int x) { return 0xffffff; }
+    const static value_type get_value_from_address(pointer ptr) {
+      return (ptr[0] | (ptr[1] << 8) | (ptr[2] << 16));
+    }
   };
 
   struct Pixel32bpp {
@@ -72,6 +77,7 @@ namespace raster {
     const static int get_pixel_offset(const int x) { return x << 2; }
     const static int get_pixel_shift(const int x) { return 0; }
     const static int get_pixel_mask(const int x) { return 0xffffffff; }
+    const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
   struct Pixel48bpp {
