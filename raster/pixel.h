@@ -13,7 +13,7 @@ namespace raster {
     enum { bits_per_pixel = 1 };
     const static int get_pixel_offset(const int x) { return x/8; }
     const static int get_pixel_shift(const int x) { return (x&7); }
-    const static int get_pixel_mask(const int x) { return 1 << get_pixel_shift(x); }
+    const static value_type get_pixel_mask(const int x) { return 1 << get_pixel_shift(x); }
   };
 
   struct Pixel2bpp {
@@ -22,7 +22,7 @@ namespace raster {
     enum { bits_per_pixel = 2 };
     const static int get_pixel_offset(const int x) { return x/4; }
     const static int get_pixel_shift(const int x) { return 2*(x&3); }
-    const static int get_pixel_mask(const int x) { return 3 << get_pixel_shift(x); }
+    const static value_type get_pixel_mask(const int x) { return 3 << get_pixel_shift(x); }
   };
 
   struct Pixel4bpp {
@@ -31,7 +31,7 @@ namespace raster {
     enum { bits_per_pixel = 4 };
     const static int get_pixel_offset(const int x) { return x/2; }
     const static int get_pixel_shift(const int x) { return 4*(x&1); }
-    const static int get_pixel_mask(const int x) { return 15 << get_pixel_shift(x); }
+    const static value_type get_pixel_mask(const int x) { return 15 << get_pixel_shift(x); }
   };
 
   struct Pixel8bpp {
@@ -41,7 +41,7 @@ namespace raster {
     enum { bits_per_pixel = 8 };
     const static int get_pixel_offset(const int x) { return x; }
     const static int get_pixel_shift(const int x) { return 0; }
-    const static int get_pixel_mask(const int x) { return 0xff; }
+    const static value_type get_pixel_mask(const int x) { return 0xff; }
     const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
@@ -50,9 +50,9 @@ namespace raster {
     typedef value_type* pointer;
     enum { bytes_per_pixel = 2 };
     enum { bits_per_pixel = 16 };
-    const static int get_pixel_offset(const int x) { return x << 1; }
+    const static int get_pixel_offset(const int x) { return x*bytes_per_pixel; }
     const static int get_pixel_shift(const int x) { return 0; }
-    const static int get_pixel_mask(const int x) { return 0xffff; }
+    const static value_type get_pixel_mask(const int x) { return 0xffff; }
     const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
@@ -61,9 +61,9 @@ namespace raster {
     typedef uint8_t* pointer;
     enum { bytes_per_pixel = 3 };
     enum { bits_per_pixel = 24 };
-    const static int get_pixel_offset(const int x) { return x*3; }
+    const static int get_pixel_offset(const int x) { return x*bytes_per_pixel; }
     const static int get_pixel_shift(const int x) { return 0; }
-    const static int get_pixel_mask(const int x) { return 0xffffff; }
+    const static value_type get_pixel_mask(const int x) { return 0xffffff; }
     const static value_type get_value_from_address(pointer ptr) {
       return (ptr[0] | (ptr[1] << 8) | (ptr[2] << 16));
     }
@@ -74,19 +74,10 @@ namespace raster {
     typedef value_type* pointer;
     enum { bytes_per_pixel = 4 };
     enum { bits_per_pixel = 32 };
-    const static int get_pixel_offset(const int x) { return x << 2; }
+    const static int get_pixel_offset(const int x) { return x*bytes_per_pixel; }
     const static int get_pixel_shift(const int x) { return 0; }
-    const static int get_pixel_mask(const int x) { return 0xffffffff; }
+    const static value_type get_pixel_mask(const int x) { return 0xffffffff; }
     const static value_type get_value_from_address(pointer ptr) { return *ptr; }
-  };
-
-  struct Pixel48bpp {
-    typedef uint64_t value_type;
-    typedef value_type* pointer;
-    enum { bytes_per_pixel = 6 };
-    enum { bits_per_pixel = 48 };
-    const static int get_pixel_offset(const int x) { return x*6; }
-    const static int get_pixel_shift(const int x) { return 0; }
   };
 
   struct Pixel64bpp {
@@ -94,8 +85,10 @@ namespace raster {
     typedef value_type* pointer;
     enum { bytes_per_pixel = 8 };
     enum { bits_per_pixel = 64 };
-    const static int get_pixel_offset(const int x) { return x << 4; }
+    const static int get_pixel_offset(const int x) { return x*bytes_per_pixel; }
     const static int get_pixel_shift(const int x) { return 0; }
+    const static value_type get_pixel_mask(const int x) { return 0xffffffffffffffff; }
+    const static value_type get_value_from_address(pointer ptr) { return *ptr; }
   };
 
 } // namespace raster
