@@ -11,13 +11,13 @@ using namespace raster;
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
-    printf("Usage: raster image.png");
+    printf("Usage: raster image.png\n");
     return 1;
   }
 
   image img = raster::png::load_from_file(argv[1]);
   if (!img) {
-    printf("Error loading image");
+    printf("Error loading image\n");
     return 2;
   }
 
