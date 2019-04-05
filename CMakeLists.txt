@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(raster CXX)
 option(RASTER_TESTS "Compile raster tests" on)
 option(RASTER_TOOLS "Compile raster tools" on)
+option(RASTER_BENCHMARKS "Compile raster benchmarks" on)
 
 include_directories(.)
 
@@ -23,4 +24,8 @@ endif()
 
 if(RASTER_TOOLS)
   add_subdirectory(tools)
+endif()
+
+if(RASTER_BENCHMARKS)
+  add_subdirectory(benchmarks)
 endif()
