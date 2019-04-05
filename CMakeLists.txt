@@ -11,6 +11,10 @@ option(RASTER_TESTS "Compile raster tests" on)
 option(RASTER_TOOLS "Compile raster tools" on)
 option(RASTER_BENCHMARKS "Compile raster benchmarks" on)
 
+if(UNIX AND NOT APPLE)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
+endif()
+
 include_directories(.)
 
 if(WIN32)
