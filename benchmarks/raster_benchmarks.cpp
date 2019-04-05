@@ -23,10 +23,10 @@ static void BM_RasterForEach(benchmark::State& state) {
     state.PauseTiming();
   }
 }
-BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel32bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel24bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel16bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel8bpp)->Range(256, 512);
+BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel32bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel24bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel16bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach, Pixel8bpp)->Range(32, 4096);
 
 template<typename Color>
 static void BM_RasterForEach2(benchmark::State& state) {
@@ -42,9 +42,9 @@ static void BM_RasterForEach2(benchmark::State& state) {
     state.PauseTiming();
   }
 }
-BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel32bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel24bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel16bpp)->Range(256, 512);
-BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel8bpp)->Range(256, 512);
+BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel32bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel24bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel16bpp)->Range(32, 4096);
+BENCHMARK_TEMPLATE(BM_RasterForEach2, Pixel8bpp)->Range(32, 4096);
 
 BENCHMARK_MAIN();
