@@ -25,7 +25,7 @@ namespace raster {
       return Pixel::get_value_from_address(m_ptr);
     }
     image_iterator& operator++() {
-      ++m_ptr;
+      Pixel::advance_pointer(m_ptr);
       return *this;
     }
   private:
