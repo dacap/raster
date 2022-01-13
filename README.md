@@ -1,6 +1,7 @@
 # Raster Library
 
-[![Build Status](https://travis-ci.org/dacap/raster.svg)](https://travis-ci.org/dacap/raster)
+[![build](https://github.com/dacap/raster/workflows/build/badge.svg)](https://github.com/dacap/raster/actions?query=workflow%3Abuild)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
 
 A generic C++17 library to use raw buffers as images.
 
