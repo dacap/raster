@@ -25,6 +25,9 @@ set_target_properties(googlebenchmark PROPERTIES
   IMPORTED_LOCATION ${GOOGLEBENCHMARK_LIBRARY}
   INTERFACE_INCLUDE_DIRECTORIES ${GOOGLEBENCHMARK_INCLUDE_DIRS})
 add_dependencies(googlebenchmark googlebenchmark-project)
+if(WIN32)
+  target_link_libraries(googlebenchmark shlwapi)
+endif()
 
 add_executable(raster_benchmarks raster_benchmarks.cpp)
 target_link_libraries(raster_benchmarks googlebenchmark)
