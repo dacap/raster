@@ -11,11 +11,19 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ilammy/msvc-dev-cmd@v1
       if: runner.os == 'Windows'
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        if [[ "${{ runner.os }}" == "Windows" ]] ; then
+          vcpkg install libpng
+        fi
     - name: Generating Makefiles
       shell: bash
       run: |
         if [[ "${{ runner.os }}" == "Windows" ]] ; then
-          cmake . -G "NMake Makefiles"
+          cmake . -G "NMake Makefiles" \
+            -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=x64-windows-static
         else
           cmake . -G "Unix Makefiles"
         fi
