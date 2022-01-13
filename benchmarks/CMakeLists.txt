@@ -3,7 +3,7 @@
 
 include(ExternalProject)
 ExternalProject_Add(googlebenchmark-project
-  URL https://github.com/google/benchmark/archive/master.zip
+  URL https://github.com/google/benchmark/archive/main.zip
   PREFIX "${CMAKE_BINARY_DIR}/googlebenchmark"
   INSTALL_DIR "${CMAKE_BINARY_DIR}/googlebenchmark"
   BUILD_BYPRODUCTS "${CMAKE_BINARY_DIR}/googlebenchmark/lib/${CMAKE_STATIC_LIBRARY_PREFIX}benchmark${CMAKE_STATIC_LIBRARY_SUFFIX}"
